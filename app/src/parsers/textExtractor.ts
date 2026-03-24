@@ -53,32 +53,15 @@ const REGISTRY_PATTERNS: TextPattern[] = [
       /____LAND_AREA_PLACEHOLDER____/,
     ],
   },
-  // 所有者名 — 登記簿甲区では住所の後に名前が来る
-  // パターン: "所有者 [住所]\n[名前]" or "所有者 [住所] [名前]"
+  // 所有者名 — カスタム抽出（最新エントリを取得するためプレースホルダー使用）
   {
     fieldPath: 'ownership.name',
-    patterns: [
-      // 法人: 住所の後に法人名
-      /所\s*有\s*者\s+.+?\n\s*(.+?(?:株式会社|有限会社|合同会社|一般社団法人|医療法人)\S*)/,
-      // 共有者パターン
-      /共\s*有\s*者\s+.+?\n\s*([^\n]{2,30})/,
-      // 個人: 住所行の次の行（都道府県を含まない行＝名前行）
-      /所\s*有\s*者\s+.+?[都道府県].+?\n\s*([^\n都道府県]{2,30})/,
-      // フォールバック: 権利者
-      /権\s*利\s*者\s+.+?\n\s*([^\n]{2,30})/,
-    ],
+    patterns: [/____OWNERSHIP_NAME_PLACEHOLDER____/],
   },
-  // 所有者住所 — 「所有者」の直後に住所が来る
+  // 所有者住所 — カスタム抽出
   {
     fieldPath: 'ownership.address',
-    patterns: [
-      // 都道府県から始まる住所
-      /所\s*有\s*者\s+(.+?[都道府県].+?(?:\d+|丁目|番地|号))/,
-      // 市区町村から始まる住所（政令市等）
-      /所\s*有\s*者\s+(.+?[市区町村].+?(?:\d+|丁目|番地|号))/,
-      // 共有者
-      /共\s*有\s*者\s+(.+?[都道府県市区町村].+?(?:\d+|丁目|番地|号))/,
-    ],
+    patterns: [/____OWNERSHIP_ADDRESS_PLACEHOLDER____/],
   },
   // 原因（売買、相続等）
   {
@@ -126,12 +109,14 @@ const REGISTRY_PATTERNS: TextPattern[] = [
     ],
     transform: (m) => m[1] + '円',
   },
-  // 抵当権者
+  // 抵当権者 — 全角スペース区切りの会社名に対応
   {
     fieldPath: 'mortgage.creditor',
     patterns: [
-      /(?:抵当権者|根抵当権者)\s+(.+?(?:銀行|信用金庫|信用組合|株式会社|公庫))/,
+      /(?:抵当権者|根抵当権者)\s+(.+?(?:銀行|信用金庫|信用組合|公庫))/,
     ],
+    // 全角スペースを除去してクリーンアップ
+    transform: (m) => m[1].replace(/\s+/g, '').replace(/　+/g, '').trim(),
   },
   // 各階床面積 (登記簿からの抽出)
   {
@@ -855,6 +840,62 @@ function extractLandArea(text: string): string | null {
 }
 
 /**
+ * Extract the LATEST ownership name and address from registry text.
+ * Registry documents list multiple ownership transfers; we need the last one.
+ * Handles spaced-out characters like "株　式　会　社　ア　バ　ン　テ　ィ　オ"
+ */
+function extractLatestOwnership(text: string): { name: string | null; address: string | null } {
+  // Find all "所有者" entries and pick the last one
+  const ownerPattern = /所有者\s+(.+)/g;
+  const matches = [...text.matchAll(ownerPattern)];
+
+  if (matches.length === 0) return { name: null, address: null };
+
+  // Use the last ownership entry
+  const lastMatch = matches[matches.length - 1];
+  const afterOwner = lastMatch[1];
+
+  // Extract address (starts with location, ends with number)
+  let address: string | null = null;
+  const addrMatch = afterOwner.match(/(.+?(?:\d+|丁目|番地|号))/);
+  if (addrMatch) {
+    address = addrMatch[1].replace(/\s+/g, '').trim();
+  }
+
+  // Extract name — look at lines following the "所有者" line
+  let name: string | null = null;
+  const pos = lastMatch.index! + lastMatch[0].length;
+  const following = text.substring(pos, pos + 200);
+
+  // Look for company name (handles spaced characters)
+  const companyMatch = following.match(/\n\s*(.+?(?:株式会社|有限会社|合同会社|株\s*式\s*会\s*社|有\s*限\s*会\s*社)\S*)/);
+  if (companyMatch) {
+    // Find the full company name (may span the next line too)
+    name = companyMatch[1].replace(/\s+/g, '').trim();
+    // If company keyword is at start, also grab what follows
+    if (/^(株式会社|有限会社|合同会社)/.test(name)) {
+      // Name might continue — check next part
+      const afterCompany = following.substring(companyMatch.index! + companyMatch[0].length);
+      const contMatch = afterCompany.match(/^\s*(.+?)(?:\n|$)/);
+      if (contMatch && contMatch[1].trim().length > 0) {
+        const cont = contMatch[1].replace(/\s+/g, '').trim();
+        if (cont.length < 20 && !/所有者|原因|令和|平成/.test(cont)) {
+          name += cont;
+        }
+      }
+    }
+  } else {
+    // Individual name — first non-empty line after address
+    const nameMatch = following.match(/\n\s*([^\n\s]{2,30})/);
+    if (nameMatch) {
+      name = nameMatch[1].replace(/\s+/g, '').trim();
+    }
+  }
+
+  return { name, address };
+}
+
+/**
  * Extract deposit amount from contract text.
  * In table-linearized OCR, labels and values are separated. The deposit amount
  * is typically 5-10% of the sale price. We find all `金XXX円` amounts and pick
@@ -921,6 +962,17 @@ export function extractFromText(
         result[tp.fieldPath] = area;
       }
       continue;
+    }
+
+    // Special handling for ownership (use latest entry from registry)
+    if (tp.fieldPath === 'ownership.name' && documentType === 'registry') {
+      const ownership = extractLatestOwnership(original);
+      if (ownership.name) result['ownership.name'] = ownership.name;
+      if (ownership.address) result['ownership.address'] = ownership.address;
+      continue;
+    }
+    if (tp.fieldPath === 'ownership.address' && documentType === 'registry') {
+      continue; // Already handled above
     }
 
     // Special handling for deposit amount (contract table linearization issue)

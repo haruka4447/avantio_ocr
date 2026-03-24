@@ -55,11 +55,12 @@
   "building.structure": {
     "keyword": "構造",
     "direction": "right",
-    "alternateKeywords": ["種類"]
+    "pattern": "木造|鉄骨造|鉄筋コンクリート|鉄骨鉄筋"
   },
   "building.usage": {
     "keyword": "種類",
-    "direction": "right"
+    "direction": "right",
+    "pattern": "共同住宅|居宅|事務所|店舗|倉庫|長屋"
   },
   "building.area": {
     "keyword": "床面積",
