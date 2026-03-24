@@ -1,0 +1,28 @@
+{
+  "building.structure": {
+    "keyword": "構造",
+    "direction": "right"
+  },
+  "building.floors": {
+    "keyword": "階数",
+    "direction": "right"
+  },
+  "building.area": {
+    "keyword": "延べ面積",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?"
+  },
+  "building.built_date": {
+    "keyword": "建築年月日",
+    "direction": "right"
+  },
+  "building.usage": {
+    "keyword": "用途",
+    "direction": "right"
+  },
+  "property.building_area": {
+    "keyword": "建築面積",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?"
+  }
+}

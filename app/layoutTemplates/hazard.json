@@ -1,0 +1,19 @@
+{
+  "hazard.hazard_type": {
+    "keyword": "種別",
+    "direction": "right"
+  },
+  "hazard.risk_level": {
+    "keyword": "危険度",
+    "direction": "right"
+  },
+  "hazard.zone_name": {
+    "keyword": "区域名",
+    "direction": "right"
+  },
+  "hazard.flood_depth": {
+    "keyword": "浸水深",
+    "direction": "right",
+    "pattern": "[\\d\\.]+m?"
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "contract.seller_name": {
+    "keyword": "売主",
+    "direction": "right",
+    "alternateKeywords": ["売渡人", "譲渡人"]
+  },
+  "contract.seller_address": {
+    "keyword": "売主",
+    "direction": "below",
+    "alternateKeywords": ["売渡人"]
+  },
+  "contract.buyer_name": {
+    "keyword": "買主",
+    "direction": "right",
+    "alternateKeywords": ["買受人", "譲受人"]
+  },
+  "contract.buyer_address": {
+    "keyword": "買主",
+    "direction": "below",
+    "alternateKeywords": ["買受人"]
+  },
+  "contract.price": {
+    "keyword": "売買代金",
+    "direction": "right",
+    "pattern": "[金￥\\d,]+円?",
+    "alternateKeywords": ["代金", "売買価格"]
+  },
+  "contract.deposit_amount": {
+    "keyword": "手付金",
+    "direction": "right",
+    "pattern": "[金￥\\d,]+円?",
+    "alternateKeywords": ["手付"]
+  },
+  "contract.contract_date": {
+    "keyword": "契約日",
+    "direction": "right",
+    "alternateKeywords": ["契約年月日", "契約締結日"]
+  },
+  "contract.delivery_date": {
+    "keyword": "引渡日",
+    "direction": "right",
+    "alternateKeywords": ["引渡期日", "引渡し日", "引渡予定日"]
+  },
+  "contract.special_conditions": {
+    "keyword": "特約事項",
+    "direction": "below",
+    "multiline": true,
+    "alternateKeywords": ["特約条項"]
+  },
+  "property.address": {
+    "keyword": "所在地",
+    "direction": "right",
+    "alternateKeywords": ["所在", "物件所在地"]
+  },
+  "property.land_number": {
+    "keyword": "地番",
+    "direction": "right"
+  },
+  "property.land_area": {
+    "keyword": "面積",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?"
+  },
+  "property.land_area_basis": {
+    "keyword": "公簿取引",
+    "direction": "right",
+    "pattern": "公簿|実測",
+    "alternateKeywords": ["実測取引", "公簿売買", "実測売買"]
+  },
+  "property.survey_status": {
+    "keyword": "実測",
+    "direction": "right",
+    "pattern": "^(済|未済)$",
+    "alternateKeywords": ["測量"]
+  },
+  "property.survey_settlement": {
+    "keyword": "実測清算",
+    "direction": "right",
+    "pattern": "^(有|無)$",
+    "alternateKeywords": ["測量清算"]
+  },
+  "property.survey_type": {
+    "keyword": "確定測量図",
+    "direction": "right",
+    "pattern": "確定測量図|地積測量図|現況平面図|現況測量図",
+    "alternateKeywords": ["地積測量図", "現況平面図"]
+  },
+  "contract.penalty_rate": {
+    "keyword": "違約金",
+    "direction": "right",
+    "alternateKeywords": ["損害賠償"]
+  },
+  "contract.fixed_asset_tax": {
+    "keyword": "固定資産税",
+    "direction": "right",
+    "alternateKeywords": ["公租公課"]
+  },
+  "loan.bank_name": {
+    "keyword": "金融機関",
+    "direction": "right",
+    "alternateKeywords": ["融資先", "借入先"]
+  },
+  "loan.loan_amount": {
+    "keyword": "融資額",
+    "direction": "right",
+    "pattern": "[\\d,]+円?",
+    "alternateKeywords": ["借入金額", "融資金額"]
+  },
+  "loan.interest_rate": {
+    "keyword": "金利",
+    "direction": "right",
+    "alternateKeywords": ["利率"]
+  },
+  "loan.loan_period": {
+    "keyword": "借入期間",
+    "direction": "right",
+    "alternateKeywords": ["返済期間"]
+  }
+}

@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# next.js
+.next/
+
+# env
+.env.local
+.env*.local
+
+# OS
+.DS_Store
+
+# sample data (large files)
+sample_data/
+sample_data.zip
+
+# claude
+.claude/

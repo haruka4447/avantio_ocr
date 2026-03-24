@@ -1,0 +1,97 @@
+{
+  "permit.confirmation_number": {
+    "keyword": "確認番号",
+    "direction": "right",
+    "alternateKeywords": ["第"]
+  },
+  "permit.confirmation_date": {
+    "keyword": "確認年月日",
+    "direction": "right",
+    "alternateKeywords": ["確認済証交付日", "交付年月日"]
+  },
+  "permit.building_location": {
+    "keyword": "建築場所",
+    "direction": "right",
+    "alternateKeywords": ["敷地の位置", "建設地"]
+  },
+  "permit.building_usage": {
+    "keyword": "用途",
+    "direction": "right",
+    "alternateKeywords": ["主要用途", "建築物の用途"]
+  },
+  "permit.building_structure": {
+    "keyword": "構造",
+    "direction": "right",
+    "alternateKeywords": ["主要構造"]
+  },
+  "permit.building_floors": {
+    "keyword": "階数",
+    "direction": "right",
+    "alternateKeywords": ["地上"]
+  },
+  "permit.building_area": {
+    "keyword": "延べ面積",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?",
+    "alternateKeywords": ["延べ床面積", "延面積"]
+  },
+  "permit.building_height": {
+    "keyword": "最高の高さ",
+    "direction": "right",
+    "alternateKeywords": ["建築物の高さ"]
+  },
+  "permit.applicant": {
+    "keyword": "建築主",
+    "direction": "right",
+    "alternateKeywords": ["申請者"]
+  },
+  "permit.inspector": {
+    "keyword": "検査者",
+    "direction": "right",
+    "alternateKeywords": ["確認検査機関"]
+  },
+  "permit.inspection_date": {
+    "keyword": "検査年月日",
+    "direction": "right",
+    "alternateKeywords": ["検査日"]
+  },
+  "permit.inspection_result": {
+    "keyword": "検査の結果",
+    "direction": "right",
+    "alternateKeywords": ["検査結果"]
+  },
+  "permit.floor_area_1f": {
+    "keyword": "1階",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?",
+    "alternateKeywords": ["１階"]
+  },
+  "permit.floor_area_2f": {
+    "keyword": "2階",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?",
+    "alternateKeywords": ["２階"]
+  },
+  "permit.floor_area_3f": {
+    "keyword": "3階",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?",
+    "alternateKeywords": ["３階"]
+  },
+  "permit.site_area": {
+    "keyword": "敷地面積",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?"
+  },
+  "permit.building_coverage": {
+    "keyword": "建ぺい率",
+    "direction": "right",
+    "pattern": "[\\d\\.]+%?",
+    "alternateKeywords": ["建蔽率"]
+  },
+  "permit.floor_area_ratio": {
+    "keyword": "容積率",
+    "direction": "right",
+    "pattern": "[\\d\\.]+%?"
+  }
+}

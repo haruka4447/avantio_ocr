@@ -1,0 +1,127 @@
+{
+  "property.address": {
+    "keyword": "所在",
+    "direction": "right",
+    "alternateKeywords": ["所在地"]
+  },
+  "property.land_number": {
+    "keyword": "地番",
+    "direction": "right"
+  },
+  "property.land_type": {
+    "keyword": "地目",
+    "direction": "right"
+  },
+  "property.land_area": {
+    "keyword": "地積",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?"
+  },
+  "ownership.name": {
+    "keyword": "所有者",
+    "direction": "below",
+    "alternateKeywords": ["名義人", "権利者", "共有者"],
+    "maxDistance": 150
+  },
+  "ownership.address": {
+    "keyword": "所有者",
+    "direction": "right",
+    "alternateKeywords": ["名義人", "共有者"],
+    "maxDistance": 400
+  },
+  "ownership.cause": {
+    "keyword": "原因",
+    "direction": "right"
+  },
+  "ownership.registration_date": {
+    "keyword": "受付年月日",
+    "direction": "right",
+    "alternateKeywords": ["登記年月日", "受付日"]
+  },
+  "ownership.share": {
+    "keyword": "持分",
+    "direction": "right",
+    "alternateKeywords": ["共有持分"]
+  },
+  "ownership.right_type": {
+    "keyword": "権利の種類",
+    "direction": "right",
+    "alternateKeywords": ["権利種類"]
+  },
+  "building.building_number": {
+    "keyword": "家屋番号",
+    "direction": "right"
+  },
+  "building.structure": {
+    "keyword": "構造",
+    "direction": "right",
+    "alternateKeywords": ["種類"]
+  },
+  "building.usage": {
+    "keyword": "種類",
+    "direction": "right"
+  },
+  "building.area": {
+    "keyword": "床面積",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?",
+    "alternateKeywords": ["延べ面積"]
+  },
+  "building.built_date": {
+    "keyword": "新築年月日",
+    "direction": "right",
+    "alternateKeywords": ["原因及びその日付"]
+  },
+  "building.residential_address": {
+    "keyword": "住居表示",
+    "direction": "right"
+  },
+  "mortgage.type": {
+    "keyword": "抵当権",
+    "direction": "right",
+    "alternateKeywords": ["根抵当権"]
+  },
+  "mortgage.amount": {
+    "keyword": "債権額",
+    "direction": "right",
+    "pattern": "[\\d,]+円?",
+    "alternateKeywords": ["極度額"]
+  },
+  "mortgage.interest_rate": {
+    "keyword": "利率",
+    "direction": "right",
+    "alternateKeywords": ["利息"]
+  },
+  "mortgage.debtor": {
+    "keyword": "債務者",
+    "direction": "right"
+  },
+  "mortgage.creditor": {
+    "keyword": "抵当権者",
+    "direction": "right",
+    "alternateKeywords": ["根抵当権者"]
+  },
+  "building.floor_area_1f": {
+    "keyword": "1階",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?",
+    "alternateKeywords": ["１階"]
+  },
+  "building.floor_area_2f": {
+    "keyword": "2階",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?",
+    "alternateKeywords": ["２階"]
+  },
+  "building.floor_area_3f": {
+    "keyword": "3階",
+    "direction": "right",
+    "pattern": "[\\d\\.]+㎡?",
+    "alternateKeywords": ["３階"]
+  },
+  "building.address": {
+    "keyword": "建物の所在",
+    "direction": "right",
+    "alternateKeywords": ["建物所在"]
+  }
+}
