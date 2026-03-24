@@ -827,17 +827,17 @@ export default function PropertyDetailPage() {
   };
 
   const handleAiParse = async () => {
-    if (!confirm('全ドキュメントのOCR結果をAIで一括解析します。よろしいですか？')) return;
+    if (!confirm('正規表現で取得できなかった項目をAI(Gemini)で補完します。よろしいですか？')) return;
     setAiParsing(true);
     setProgress({
       active: true,
-      label: 'AI一括解析',
+      label: 'AI補完',
       current: 0,
       total: 1,
-      detail: 'Gemini APIで全ドキュメントを解析中...',
+      detail: 'Geminiで不足項目を補完中...',
     });
     try {
-      const res = await fetch('/api/ai-parse', {
+      const res = await fetch('/api/ai-fill', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ property_id: propertyId }),
@@ -846,16 +846,18 @@ export default function PropertyDetailPage() {
       if (res.ok) {
         setProgress({
           active: false,
-          label: 'AI一括解析',
+          label: 'AI補完',
           current: 1,
           total: 1,
-          detail: `完了: ${data.documents_analyzed}件の資料から抽出`,
+          detail: data.filled_count > 0
+            ? `完了: ${data.gaps_found}件中${data.filled_count}件を補完`
+            : '補完対象なし（全項目取得済み）',
         });
         await fetchData();
       } else {
         setProgress({
           active: false,
-          label: 'AI一括解析',
+          label: 'AI補完',
           current: 1,
           total: 1,
           detail: `エラー: ${data.error || '失敗'}`,
@@ -864,7 +866,7 @@ export default function PropertyDetailPage() {
     } catch {
       setProgress({
         active: false,
-        label: 'AI一括解析',
+        label: 'AI補完',
         current: 1,
         total: 1,
         detail: 'エラー: 通信に失敗しました',
@@ -967,7 +969,7 @@ export default function PropertyDetailPage() {
             disabled={!!progress?.active || aiParsing}
             className="bg-brand-600 text-white px-4 py-2 rounded-lg hover:bg-brand-700 disabled:opacity-50 text-sm"
           >
-            {aiParsing ? 'AI解析中...' : 'AI一括解析'}
+            {aiParsing ? 'AI補完中...' : 'AI補完'}
           </button>
           <button
             onClick={handleGenerate}
